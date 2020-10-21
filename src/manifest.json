@@ -1,0 +1,45 @@
+{
+  "name": "promotone",
+  "manifest_version": 2,
+  "description": "",
+  "homepage_url": "https://github.com/utakeru/promotone",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "browser_action": {
+  },
+  "permissions": [
+    "storage",
+    "https://*.cybozu.com/k/*",
+    "https://*.cybozu-dev.com/k/*",
+    "https://*.kintone.com/k/*",
+    "https://*.kintone-dev.com/k/*",
+    "https://*.cybozu.cn/k/*",
+    "https://*.cybozu-dev.cn/k/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.cybozu.com/k/*",
+        "https://*.cybozu-dev.com/k/*",
+        "https://*.kintone.com/k/*",
+        "https://*.kintone-dev.com/k/*",
+        "https://*.cybozu.cn/k/*",
+        "https://*.cybozu-dev.cn/k/*"
+      ],
+      "js": [
+        "js/content.js"
+      ],
+      "css": [
+        "css/content.css"
+      ],
+      "all_frames": true
+    }
+  ],
+  "background": {
+    "scripts": ["js/background.js"],
+    "persistent": false
+  }
+}
