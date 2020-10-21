@@ -170,3 +170,7 @@ export type CommentComponentChangedDetail = {
   element: HTMLElement
   addedElements: HTMLElement[]
 }
+
+export type CommentComponentLoadedDetail = {
+  element: HTMLElement
+}
