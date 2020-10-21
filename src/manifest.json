@@ -8,8 +8,14 @@
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
   },
-  "browser_action": {},
+  "browser_action": {
+    "default_icon": {
+      "16": "icons/icon16.png"
+    },
+    "default_title": "promotone"
+  },
   "permissions": [
+    "storage",
     "https://*.cybozu.com/k/*",
     "https://*.cybozu-dev.com/k/*",
     "https://*.kintone.com/k/*",
