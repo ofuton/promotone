@@ -1,5 +1,5 @@
 export default class DomObserver {
-  commentComponentObserver: MutationObserver | null = null
+  postsObserver: MutationObserver | null = null
 
   /**
    * spacelayout-body にDOM追加が行われたときに spacecontent-body の変更を監視する
@@ -49,6 +49,31 @@ export default class DomObserver {
     })
   })
 
+  commentComponentObserver_ = new MutationObserver((mutations) => {
+    const addedPosts: Node[] = []
+    mutations.forEach((mutation) => {
+      if (this.isAddedNodes_(mutation)) {
+        addedPosts.push(
+          ...Array.from(mutation.addedNodes).filter((node) => {
+            const element = node as Element
+            return element.classList.contains("ocean-ui-comments-post")
+          })
+        )
+      }
+    })
+    if (addedPosts.length <= 0) {
+      return
+    }
+    const commentComponentEl = document.querySelector(
+      ".ocean-ui-comments-commentcomponent"
+    )!
+    const detail: CommentComponentChangedDetail = {
+      addedElements: addedPosts as HTMLElement[],
+      element: commentComponentEl as HTMLElement,
+    }
+    this.dispatchEvent_(EventType.COMMENT_COMPONENT_CHANGED, detail)
+  })
+
   /**
    * コメントコンポーネントが読み込まれたときにイベントを投げる
    */
@@ -65,6 +90,10 @@ export default class DomObserver {
         this.dispatchEvent_(EventType.COMMENT_COMPONENT_LOADED, {
           element: commentComponentEl,
         })
+
+        this.commentComponentObserver_.observe(commentComponentEl, {
+          childList: true,
+        })
         // subtreeまで監視し続けると負荷がヤバそうなのでcommentcomponentが見つかったらdisconnectする
         this.spaceContentInnerObserver_.disconnect()
         break
@@ -75,9 +104,9 @@ export default class DomObserver {
   /**
    * スレッド画面の中身(#contents-ocean-body)が描画されることを監視する
    * 以下のタイミングでイベントを返す
-   * コメントコンポーネントを読み込み終わったとき: `SORTED:COMMENTCOMPONENT_LOADED`
+   * コメントコンポーネントを読み込み終わったとき: `PROMOTONE:COMMENTCOMPONENT_LOADED`
    */
-  startCommentComponentObserver() {
+  startPostsObserver() {
     /** 以下の順で描画される
      * 1. #contents-body-ocean
      * 2. .gaia-argoui-space-spacelayout-body
@@ -85,7 +114,7 @@ export default class DomObserver {
      * 4. .ocean-ui-comments-commentcomponent
      */
     // 既にobserveしているときは何もしない
-    if (this.commentComponentObserver) {
+    if (this.postsObserver) {
       console.log("already started")
       return
     }
@@ -93,7 +122,7 @@ export default class DomObserver {
     if (!bodyOceanEl) {
       return
     }
-    this.commentComponentObserver = new MutationObserver((mutations) => {
+    this.postsObserver = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (mutation.addedNodes && mutation.addedNodes.length > 0) {
           const spaceLayoutEl = document.querySelector(
@@ -111,7 +140,7 @@ export default class DomObserver {
         // 2. 通常の描画フローの2.からになる
       })
     })
-    this.commentComponentObserver.observe(bodyOceanEl, {
+    this.postsObserver.observe(bodyOceanEl, {
       childList: true,
     })
   }
@@ -133,5 +162,11 @@ export default class DomObserver {
 }
 
 export enum EventType {
-  COMMENT_COMPONENT_LOADED = "SORTONE:COMMENT_COMPONENT_LOADED",
+  COMMENT_COMPONENT_LOADED = "PROMOTONE:COMMENT_COMPONENT_LOADED",
+  COMMENT_COMPONENT_CHANGED = "PROMOTONE:COMMENT_COMPONENT_CHANGED",
+}
+
+export type CommentComponentChangedDetail = {
+  element: HTMLElement
+  addedElements: HTMLElement[]
 }
