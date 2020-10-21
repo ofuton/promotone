@@ -13,6 +13,7 @@ module.exports = {
   entry: {
     content: "./src/app/content.ts",
     background: "./src/app/background.ts",
+    inject: "./src/app/web_accessible_resources/inject.ts",
   },
 
   output: {

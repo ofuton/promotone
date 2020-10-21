@@ -8,10 +8,8 @@
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
   },
-  "browser_action": {
-  },
+  "browser_action": {},
   "permissions": [
-    "storage",
     "https://*.cybozu.com/k/*",
     "https://*.cybozu-dev.com/k/*",
     "https://*.kintone.com/k/*",
@@ -29,17 +27,14 @@
         "https://*.cybozu.cn/k/*",
         "https://*.cybozu-dev.cn/k/*"
       ],
-      "js": [
-        "js/content.js"
-      ],
-      "css": [
-        "css/content.css"
-      ],
+      "js": ["js/content.js"],
+      "css": ["css/content.css"],
       "all_frames": true
     }
   ],
   "background": {
     "scripts": ["js/background.js"],
     "persistent": false
-  }
+  },
+  "web_accessible_resources": ["js/inject.js"]
 }
