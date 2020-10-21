@@ -1,4 +1,4 @@
-# sortone
+# promotone
 Chrome extension for kintone
 
 ### Build
