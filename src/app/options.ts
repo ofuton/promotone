@@ -4,30 +4,52 @@ import PromotoneSettings from "./promotone-settings"
 console.log("options")
 
 document.addEventListener("DOMContentLoaded", () => {
-  let el = document.querySelector("#app-id-input")
-  if (!el) {
+  let appIdInputEl = document.querySelector("#app-id-input") as HTMLInputElement
+  let promotionIntervalInputEl = document.querySelector(
+    "#promotion-interval-input"
+  ) as HTMLInputElement
+  console.log(appIdInputEl, promotionIntervalInputEl)
+  if (!appIdInputEl || !promotionIntervalInputEl) {
     return
   }
-  const inputEl = el as HTMLInputElement
 
-  el = document.querySelector("#input-saved-message")
-  if (!el) {
+  const appIdMessageEl = document.querySelector(
+    "#app-id-saved-message"
+  ) as HTMLElement
+  const promotionIntervalMessageEl = document.querySelector(
+    "#promotion-interval-saved-message"
+  ) as HTMLElement
+  if (!appIdMessageEl || !promotionIntervalMessageEl) {
     return
   }
-  const messageEl = el as HTMLInputElement
 
   PromotoneSettings.loadAppId((appId) => {
-    inputEl.value = appId
+    appIdInputEl.value = appId
   })
 
-  inputEl.addEventListener("focus", (e) => {
-    messageEl.classList.remove("__success")
+  appIdInputEl.addEventListener("focus", (e) => {
+    appIdMessageEl.classList.remove("__success")
   })
 
-  inputEl.addEventListener("change", (e) => {
+  appIdInputEl.addEventListener("change", (e) => {
     const targetEl = e.target as HTMLInputElement
     PromotoneSettings.saveAppId(targetEl.value, () => {
-      messageEl.classList.add("__success")
+      appIdMessageEl.classList.add("__success")
+    })
+  })
+
+  PromotoneSettings.loadPromotionInterval((promotionInterval) => {
+    promotionIntervalInputEl.value = promotionInterval
+  })
+
+  promotionIntervalInputEl.addEventListener("focus", (e) => {
+    promotionIntervalMessageEl.classList.remove("__success")
+  })
+
+  promotionIntervalInputEl.addEventListener("change", (e) => {
+    const targetEl = e.target as HTMLInputElement
+    PromotoneSettings.savePromotionInterval(targetEl.value, () => {
+      promotionIntervalMessageEl.classList.add("__success")
     })
   })
 })

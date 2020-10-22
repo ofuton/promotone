@@ -32,14 +32,21 @@ PromotoneSettings.loadEnabled((enabled) => {
     const customEvent = e as CustomEvent
     const customEventDetail = customEvent.detail as CommentComponentLoadedDetail
     const commentComponentEl = customEventDetail.element
-    promotionHelper.insertPromotion(commentComponentEl, 5)
+    PromotoneSettings.loadPromotionInterval((promotionInterval) => {
+      promotionHelper.insertPromotion(
+        commentComponentEl,
+        parseInt(promotionInterval)
+      )
+    })
   })
 
   document.addEventListener(EventType.COMMENT_COMPONENT_CHANGED, (e) => {
     const customEvent = e as CustomEvent
     const customEventDetail = customEvent.detail as CommentComponentChangedDetail
     const targetEl = customEventDetail.element
-    promotionHelper.insertPromotion(targetEl, 5)
+    PromotoneSettings.loadPromotionInterval((promotionInterval) => {
+      promotionHelper.insertPromotion(targetEl, parseInt(promotionInterval))
+    })
   })
 
   document.addEventListener("promotionLoaded", (e) => {

@@ -2,15 +2,29 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link rel="stylesheet" href="../css/options.css" type="text/css">
+    <link rel="stylesheet" href="../css/options.css" type="text/css" />
     <script src="../js/options.js"></script>
   </head>
   <body>
     <main>
-      <h1>設定</h1>
-      <div><label for="app-id-input">アプリID</label></div>
-      <input id="app-id-input" type="number"><span id="input-saved-message">Saved</span>
-      <aside>※https://xxx.cybozu.com/k/<アプリID> の数字です</aside>
+      <h1 class="modal-title">設定</h1>
+      <div class="settings-item-title">
+        <label for="app-id-input">アプリID</label>
+      </div>
+      <input id="app-id-input" type="number" /><span id="app-id-saved-message"
+        >Saved</span
+      >
+      <aside>※ https://xxx.cybozu.com/k/<アプリID> の数字です</aside>
+      <div class="settings-item-title">
+        <label for="promotion-interval-input">投稿頻度</label>
+      </div>
+      <input id="promotion-interval-input" type="number" /><span
+        id="promotion-interval-saved-message"
+        >Saved</span
+      >
+      <aside>
+        ※ 10にした場合はスレッドの投稿10件ごとに一度広告が表示されます
+      </aside>
     </main>
   </body>
 </html>

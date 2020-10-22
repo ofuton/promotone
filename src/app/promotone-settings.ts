@@ -23,4 +23,18 @@ export default class PromotoneSettings {
   static saveAppId(appId: string, callback: () => void) {
     chrome.storage.sync.set({ promotoneAppId: appId }, callback)
   }
+
+  static loadPromotionInterval(callback: (promotionInterval: string) => void) {
+    chrome.storage.sync.get(["promotonePromotionInterval"], (result) => {
+      if (result && result.promotonePromotionInterval !== undefined) {
+        callback(result.promotonePromotionInterval)
+      } else {
+        callback("10")
+      }
+    })
+  }
+
+  static savePromotionInterval(appId: string, callback: () => void) {
+    chrome.storage.sync.set({ promotonePromotionInterval: appId }, callback)
+  }
 }
