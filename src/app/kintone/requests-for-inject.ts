@@ -1,5 +1,9 @@
 export const getPromotions = async (appId: number): Promise<any> => {
-  return kintone.api("/k/v1/records", "GET", { app: appId, query: "limit 20" })
+  return kintone.api("/k/v1/records", "GET", {
+    app: appId,
+    query:
+      'startDatetime <= TODAY() and endDatetime >= TODAY() and notWantToSeeUser not in (" USER", LOGINUSER()) limit 20',
+  })
 }
 
 export const likePromotion = async (
