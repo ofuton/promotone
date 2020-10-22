@@ -42,5 +42,8 @@
     "scripts": ["js/background.js"],
     "persistent": false
   },
+  "options_ui": {
+    "page": "html/options.html"
+  },
   "web_accessible_resources": ["js/inject.js"]
 }

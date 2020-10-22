@@ -14,6 +14,7 @@ module.exports = {
     content: "./src/app/content.ts",
     background: "./src/app/background.ts",
     inject: "./src/app/web_accessible_resources/inject.ts",
+    options: "./src/app/options.ts",
   },
 
   output: {
@@ -32,6 +33,7 @@ module.exports = {
       chunkFilename: "css/[id].css",
     }),
     new CopyPlugin({ patterns: [{ from: "src/icons/", to: "icons" }] }),
+    new CopyPlugin({ patterns: [{ from: "src/html/", to: "html" }] }),
     new webpack.DefinePlugin({
       "process.env.ASSET_PATH": JSON.stringify(ASSET_PATH),
     }),
