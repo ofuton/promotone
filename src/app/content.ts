@@ -32,7 +32,6 @@ PromotoneSettings.loadEnabled((enabled) => {
     const customEvent = e as CustomEvent
     const customEventDetail = customEvent.detail as CommentComponentLoadedDetail
     const commentComponentEl = customEventDetail.element
-    console.log("loaded")
     promotionHelper.insertPromotion(commentComponentEl, 5)
   })
 
@@ -40,9 +39,7 @@ PromotoneSettings.loadEnabled((enabled) => {
     const customEvent = e as CustomEvent
     const customEventDetail = customEvent.detail as CommentComponentChangedDetail
     const targetEl = customEventDetail.element
-    const addedEls = customEventDetail.addedElements
-    console.log("comment component changed", targetEl)
-    console.log("addedEls", addedEls)
+    promotionHelper.insertPromotion(targetEl, 5)
   })
 
   document.addEventListener("promotionLoaded", (e) => {
