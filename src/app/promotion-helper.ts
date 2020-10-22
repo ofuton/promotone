@@ -20,20 +20,17 @@ export default class PromotionHelper {
         ".ocean-ui-comments-post:not(.promotone-visited)"
       )
     )
-    const numberOfInsert = Math.floor(posts.length / postInterval)
-    for (let i = 0; i < numberOfInsert; i++) {
-      const targetElement = posts[i * numberOfInsert] as HTMLElement
+    posts.forEach((post, index) => {
+      if (index % postInterval !== 0) {
+        return
+      }
       const promotion = this.pickUpPromotion_()
       if (promotion === null) {
         return
       }
-
       const el = document.createElement("div")
-      targetElement.insertAdjacentElement("afterend", el)
-      this.renderPromotionElement_(promotion, el)
-    }
-    // insertが重複する可能性があるので一度見た投稿は次回以降無視する
-    posts.forEach((post) => {
+      post.insertAdjacentElement("afterend", el)
+      this.renderPromotionElement_(promotion, el) // insertが重複する可能性があるので一度見た投稿は次回以降無視する
       post.classList.add("promotone-visited")
     })
   }

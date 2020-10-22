@@ -3,11 +3,21 @@ main {
   width: 300px;
 }
 
-#app-id-input {
+.modal-title {
+  margin-top: 0;
+}
+
+.settings-item-title {
+  margin-top: 20px;
+}
+
+#app-id-input,
+#promotion-interval-input {
   width: 80%;
 }
 
-#input-saved-message {
+#app-id-saved-message,
+#promotion-interval-saved-message {
   display: none;
   color: #0ad9ec;
   margin-left: 20px;
