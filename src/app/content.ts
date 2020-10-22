@@ -46,5 +46,11 @@ PromotoneSettings.loadEnabled((enabled) => {
     const eventDetail = (e as CustomEvent).detail
     const records = eventDetail.records
     promotionHelper.setPromotions(records)
+    PromotoneSettings.loadAppId((appId) => {
+      if (!parseInt(appId)) {
+        return
+      }
+      promotionHelper.setAppId(parseInt(appId))
+    })
   })
 })
