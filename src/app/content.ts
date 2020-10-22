@@ -16,7 +16,7 @@ PromotoneSettings.loadAppId((appId) => {
   if (appId === undefined) {
     return
   }
-  window.localStorage.setItem("promotone:test", appId)
+  window.localStorage.setItem("promotone:AppId", appId)
   injectScript()
 })
 
