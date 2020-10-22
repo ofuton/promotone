@@ -55,4 +55,6 @@ export type Promotion = {
     code: string
     name: string
   }
+  startDatetime?: Date
+  endDatetime?: Date
 }
