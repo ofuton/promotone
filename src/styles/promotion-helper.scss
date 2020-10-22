@@ -1,0 +1,62 @@
+.promotone-card {
+  position: relative;
+  border: 1px solid #a3a3a3;
+  display: flex;
+  background-color: white;
+  padding: 18px;
+}
+
+.promotone-card-user-icon {
+  margin-right: 14px;
+}
+
+.promotone-card-user-name {
+  color: #888;
+}
+
+.promotone-card-content {
+  margin: 4px 0;
+}
+
+.promotone-card-like,
+#promotone-card-like-button {
+  font-size: 0.75rem;
+  color: #777777;
+
+  &:hover,
+  &:active,
+  &:focus {
+    color: #2c2c2c;
+  }
+}
+
+.promotone-card-footer {
+  margin-bottom: 6px;
+}
+
+#promotone-card-like-button {
+  background-color: white;
+  border: none;
+}
+
+.promotone-card-not-displayed {
+  .promotone-card-not-displayed-button {
+    color: #888;
+    font-size: 0.75rem;
+  }
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  & > button {
+    background-color: white;
+    border: none;
+  }
+}
+
+.promotone-card-message {
+  font-size: 0.75rem;
+  color: #888;
+  position: absolute;
+  left: 10px;
+  bottom: 0;
+}
