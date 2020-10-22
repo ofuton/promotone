@@ -10,7 +10,16 @@ import PromotionHelper from "./promotion-helper"
 import { injectScript } from "./inject-helper"
 import PromotoneSettings from "./promotone-settings"
 
-injectScript()
+// injectした側からchrome.storage.syncを叩くことが出来ないので
+// localStorage経由で値の受け渡しを行う
+PromotoneSettings.loadAppId((appId) => {
+  if (appId === undefined) {
+    return
+  }
+  window.localStorage.setItem("promotone:test", appId)
+  injectScript()
+})
+
 PromotoneSettings.loadEnabled((enabled) => {
   if (!enabled) {
     return

@@ -10,7 +10,17 @@ export default class PromotoneSettings {
     })
   }
 
-  static saveEnabled(enabled: boolean) {
+  static saveEnabled(enabled: boolean): void {
     chrome.storage.sync.set({ promotoneEnabled: enabled })
+  }
+
+  static loadAppId(callback: (appId: string) => void) {
+    chrome.storage.sync.get(["promotoneAppId"], (result) => {
+      callback(result.promotoneAppId)
+    })
+  }
+
+  static saveAppId(appId: string, callback: () => void) {
+    chrome.storage.sync.set({ promotoneAppId: appId }, callback)
   }
 }

@@ -1,0 +1,18 @@
+main {
+  padding: 20px;
+  width: 300px;
+}
+
+#app-id-input {
+  width: 80%;
+}
+
+#input-saved-message {
+  display: none;
+  color: #0ad9ec;
+  margin-left: 20px;
+
+  &.__success {
+    display: inline-block;
+  }
+}

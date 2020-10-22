@@ -1,8 +1,11 @@
 import { getPromotions } from "../kintone/promotion"
 
-getPromotions().then((resp: { records: any }) => {
-  const customEvent = new CustomEvent("promotionLoaded", {
-    detail: { records: resp.records },
-  })
-  document.dispatchEvent(customEvent)
-}) // TODO: AppIdをオプションから渡せるようにする
+const savedValue = window.localStorage.getItem("promotone:test")
+if (savedValue && !!parseInt(savedValue)) {
+  getPromotions(parseInt(savedValue)).then((resp: { records: any }) => {
+    const customEvent = new CustomEvent("promotionLoaded", {
+      detail: { records: resp.records },
+    })
+    document.dispatchEvent(customEvent)
+  }) // TODO: AppIdをオプションから渡せるようにする
+}
