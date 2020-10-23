@@ -122,6 +122,21 @@ export default class DomObserver {
     if (!bodyOceanEl) {
       return
     }
+    // ページ読み込みが終わっていてブラウザアクションからenabledにしたときには既にcommentcomponentがある
+    if (document.querySelector(".ocean-ui-comments-commentcomponent")) {
+      this.spaceContentObserver_.observe(
+        document.querySelector(".gaia-argoui-space-spacecontent-body")!,
+        {
+          childList: true,
+        }
+      )
+      this.commentComponentObserver_.observe(
+        document.querySelector(".ocean-ui-comments-commentcomponent")!,
+        {
+          childList: true,
+        }
+      )
+    }
     this.postsObserver = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (mutation.addedNodes && mutation.addedNodes.length > 0) {
@@ -143,6 +158,15 @@ export default class DomObserver {
     this.postsObserver.observe(bodyOceanEl, {
       childList: true,
     })
+  }
+
+  disconnect() {
+    this.postsObserver?.disconnect()
+    this.postsObserver = null
+    this.spaceLayoutObserver_.disconnect()
+    this.spaceContentObserver_.disconnect()
+    this.commentComponentObserver_.disconnect()
+    this.spaceContentInnerObserver_.disconnect()
   }
 
   private dispatchEvent_(
