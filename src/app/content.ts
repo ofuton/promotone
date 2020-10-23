@@ -1,6 +1,5 @@
 import "../manifest.json"
 import "../styles/content.scss"
-import { html, render } from "lit-html"
 import DomObserver, {
   CommentComponentChangedDetail,
   CommentComponentLoadedDetail,

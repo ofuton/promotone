@@ -28,6 +28,17 @@
   }
 }
 
+.promotone-card-like-count-text::before {
+  margin-right: 4px;
+  content: "";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background: url(../icons/icon48.png) no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
 .promotone-card-like__liked {
   &,
   #promotone-card-like-button {
@@ -46,6 +57,7 @@
 #promotone-card-like-button {
   background-color: white;
   border: none;
+  padding: 0 2px;
 }
 
 .promotone-card-not-displayed {
@@ -56,6 +68,16 @@
     border: none;
     &:hover {
       color: #2c2c2c;
+    }
+
+    &::before {
+      content: "";
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+      background: url(../icons/icon48.png) no-repeat;
+      background-position: center;
+      background-size: contain;
     }
   }
   position: absolute;
