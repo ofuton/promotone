@@ -1,31 +1,51 @@
 .promotone-card {
   position: relative;
-  border: 1px solid #a3a3a3;
+  border-top: 1px solid #e3e7e8;
   display: flex;
   background-color: white;
-  padding: 18px;
+  padding: 18px 18px 30px 18px;
 }
 
 .promotone-card-user-icon {
+  width: 48px;
+  height: 48px;
   margin-right: 14px;
+
+  background: url(../icons/user.png) no-repeat;
+  background-position: center;
+  background-size: contain;
 }
 
 .promotone-card-user-name {
+  font-size: 16px;
   color: #888;
+  margin-bottom: 4px;
 }
 
-.promotone-card-content {
-  margin: 4px 0;
+.promotone-card-like {
+  margin-top: 16px;
 }
 
 .promotone-card-like,
 #promotone-card-like-button {
-  font-size: 0.75rem;
+  font-size: 14px;
   color: #777777;
 
   &:hover {
     color: #2c2c2c;
   }
+}
+
+.promotone-card-like-count-text::before {
+  margin-right: 4px;
+  content: "";
+  display: inline-block;
+  vertical-align: top;
+  width: 1.3em;
+  height: 1.3em;
+  background: url(../icons/like-gray.png) no-repeat;
+  background-position: center;
+  background-size: contain;
 }
 
 .promotone-card-like__liked {
@@ -50,6 +70,7 @@
 
 .promotone-card-not-displayed {
   .promotone-card-not-displayed-button {
+    padding-bottom: 3px;
     color: #888;
     font-size: 0.75rem;
     background-color: white;
@@ -58,15 +79,36 @@
       color: #2c2c2c;
     }
   }
+  &::before {
+    content: "";
+    display: inline-block;
+    vertical-align: top;
+    width: 1.3em;
+    height: 1.3em;
+    background: url(../icons/invisible.png) no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
   position: absolute;
   top: 18px;
   right: 18px;
 }
 
 .promotone-card-message {
+  margin: 0 0 10px 68px;
   font-size: 0.75rem;
   color: #888;
   position: absolute;
   left: 10px;
   bottom: 0;
+  &::before {
+    content: "";
+    display: inline-block;
+    vertical-align: top;
+    width: 1.3em;
+    height: 1.3em;
+    background: url(../icons/promo.png) no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
 }

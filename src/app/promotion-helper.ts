@@ -73,7 +73,7 @@ export default class PromotionHelper {
     const template = html`<div class="promotone-card ${className}">
       <div class="promotone-card-left">
         <div class="promotone-card-user-icon">
-          <img src="https://placehold.jp/48x48.png" />
+          <img />
         </div>
       </div>
       <div class="promotone-card-right">
@@ -96,7 +96,7 @@ export default class PromotionHelper {
                 class="promotone-card-like-count-text"
                 >${promotion.likeCount}</label
               >
-              <button id="promotone-card-like-button">いいね</button>
+              <button id="promotone-card-like-button">いいね！</button>
             </div>
           </div>
         </div>
@@ -107,7 +107,10 @@ export default class PromotionHelper {
           この広告を今後表示しない
         </button>
       </div>
-      <span class="promotone-card-message">プロモーション</span>
+      
+      <div class="promotone-card-message">
+        <span>プロモーション</span>
+      </span>
     </div>`
     render(template, targetElement)
     this.listenLikeButtonClick_(targetElement, promotion)

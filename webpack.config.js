@@ -89,6 +89,10 @@ module.exports = {
         ],
         type: "javascript/auto",
       },
+      {
+        test: /\.(jpg|png)$/,
+        loader: "url-loader",
+      },
     ],
   },
 }
