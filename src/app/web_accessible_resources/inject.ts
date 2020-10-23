@@ -2,7 +2,20 @@ import {
   getPromotions,
   likePromotion,
   notDisplayPromotion,
+  unlikePromotion,
 } from "../kintone/requests-for-inject"
+
+const loginUser = kintone.getLoginUser()
+document.dispatchEvent(
+  new CustomEvent("promotone:getLoginUser", {
+    detail: {
+      loginUser: {
+        code: loginUser.code,
+        name: loginUser.name,
+      },
+    },
+  })
+)
 
 const savedValue = window.localStorage.getItem("promotone:AppId")
 if (savedValue && !!parseInt(savedValue)) {
@@ -24,6 +37,18 @@ document.addEventListener("promotone:liked", (e) => {
   const recordId = eventDetail.recordId
   const likedUser = kintone.getLoginUser().code
   likePromotion(appId, recordId, likedUser)
+})
+
+document.addEventListener("promotone:unliked", (e) => {
+  const customEvent = e as CustomEvent
+  if (!customEvent) {
+    return
+  }
+  const eventDetail = customEvent.detail as PromotoneLikedDetail
+  const appId = eventDetail.appId
+  const recordId = eventDetail.recordId
+  const unlikedUser = kintone.getLoginUser().code
+  unlikePromotion(appId, recordId, unlikedUser)
 })
 
 document.addEventListener("promotone:notDisplayed", (e) => {

@@ -23,10 +23,19 @@
   font-size: 0.75rem;
   color: #777777;
 
-  &:hover,
-  &:active,
-  &:focus {
+  &:hover {
     color: #2c2c2c;
+  }
+}
+
+.promotone-card-like__liked {
+  &,
+  #promotone-card-like-button {
+    color: #3498db;
+
+    &:hover {
+      color: #2c2c2c;
+    }
   }
 }
 
@@ -43,14 +52,15 @@
   .promotone-card-not-displayed-button {
     color: #888;
     font-size: 0.75rem;
+    background-color: white;
+    border: none;
+    &:hover {
+      color: #2c2c2c;
+    }
   }
   position: absolute;
   top: 18px;
   right: 18px;
-  & > button {
-    background-color: white;
-    border: none;
-  }
 }
 
 .promotone-card-message {

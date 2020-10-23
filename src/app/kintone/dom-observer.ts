@@ -145,6 +145,14 @@ export default class DomObserver {
     })
   }
 
+  disconnect() {
+    this.postsObserver?.disconnect()
+    this.spaceLayoutObserver_.disconnect()
+    this.spaceContentObserver_.disconnect()
+    this.commentComponentObserver_.disconnect()
+    this.spaceContentInnerObserver_.disconnect()
+  }
+
   private dispatchEvent_(
     eventType: EventType,
     detail: { [key: string]: Object }

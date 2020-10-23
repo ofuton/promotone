@@ -10,23 +10,11 @@ import PromotionHelper from "./promotion-helper"
 import { injectScript } from "./inject-helper"
 import PromotoneSettings from "./promotone-settings"
 
-// injectした側からchrome.storage.syncを叩くことが出来ないので
-// localStorage経由で値の受け渡しを行う
-PromotoneSettings.loadAppId((appId) => {
-  if (appId === undefined) {
-    return
-  }
-  window.localStorage.setItem("promotone:AppId", appId)
-  injectScript()
-})
+const promotionHelper = new PromotionHelper()
+const domObserver = new DomObserver()
 
-PromotoneSettings.loadEnabled((enabled) => {
-  if (!enabled) {
-    return
-  }
-  const domObserver = new DomObserver()
+const enablePromotone_ = () => {
   domObserver.startPostsObserver()
-  const promotionHelper = new PromotionHelper()
 
   document.addEventListener(EventType.COMMENT_COMPONENT_LOADED, (e) => {
     const customEvent = e as CustomEvent
@@ -52,7 +40,7 @@ PromotoneSettings.loadEnabled((enabled) => {
   document.addEventListener("promotionLoaded", (e) => {
     const eventDetail = (e as CustomEvent).detail
     const records = eventDetail.records
-    promotionHelper.setPromotions(records)
+    promotionHelper.setPromotionsFromRecords(records)
     PromotoneSettings.loadAppId((appId) => {
       if (!parseInt(appId)) {
         return
@@ -60,4 +48,36 @@ PromotoneSettings.loadEnabled((enabled) => {
       promotionHelper.setAppId(parseInt(appId))
     })
   })
+}
+
+const disablePromotone_ = () => {
+  domObserver.disconnect()
+}
+
+// injectした側からchrome.storage.syncを叩くことが出来ないので
+// localStorage経由で値の受け渡しを行う
+PromotoneSettings.loadAppId((appId) => {
+  if (appId === undefined) {
+    return
+  }
+  document.addEventListener("promotone:getLoginUser", (e) => {
+    promotionHelper.loginUser = (e as CustomEvent).detail.loginUser
+  })
+  window.localStorage.setItem("promotone:AppId", appId)
+  injectScript()
+})
+
+PromotoneSettings.onEnabledChanged((enable) => {
+  if (enable) {
+    enablePromotone_()
+  } else {
+    disablePromotone_()
+  }
+})
+
+PromotoneSettings.loadEnabled((enabled) => {
+  if (!enabled) {
+    return
+  }
+  enablePromotone_()
 })
