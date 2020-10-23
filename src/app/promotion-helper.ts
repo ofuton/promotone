@@ -114,6 +114,12 @@ export default class PromotionHelper {
     this.listenNotDisplayedButtonClick_(targetElement, promotion, className)
   }
 
+  static removeAllPromotionCard() {
+    Array.from(document.querySelectorAll(".promotone-card")).forEach((card) => {
+      card.remove()
+    })
+  }
+
   pickUpPromotion_(): Promotion | null {
     if (this.promotions.length <= 0) {
       return null

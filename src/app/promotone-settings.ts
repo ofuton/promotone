@@ -14,6 +14,14 @@ export default class PromotoneSettings {
     chrome.storage.sync.set({ promotoneEnabled: enabled })
   }
 
+  static onEnabledChanged(callback: (enabled: boolean) => void): void {
+    chrome.storage.onChanged.addListener((changes, namespace) => {
+      if (changes.promotoneEnabled) {
+        callback(changes.promotoneEnabled.newValue)
+      }
+    })
+  }
+
   static loadAppId(callback: (appId: string) => void) {
     chrome.storage.sync.get(["promotoneAppId"], (result) => {
       callback(result.promotoneAppId)
