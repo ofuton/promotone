@@ -36,6 +36,35 @@ export const likePromotion = async (
     })
 }
 
+export const unlikePromotion = async (
+  appId: number,
+  recordId: number,
+  unlikeUserCode: string
+): Promise<any> => {
+  return kintone
+    .api("/k/v1/record", "GET", { app: appId, id: recordId })
+    .then((resp) => {
+      const record: promotone.types.SavedPromotionFields = resp.record
+      const likedUsers: { code: string; name?: string }[] =
+        record.likedUsers.value
+      const filterdeLikedUsers = likedUsers.filter(
+        (user) => user.code !== unlikeUserCode
+      )
+      return kintone.api("/k/v1/record", "PUT", {
+        app: appId,
+        id: recordId,
+        record: {
+          likedUsers: {
+            value: filterdeLikedUsers,
+          },
+          likeCount: {
+            value: filterdeLikedUsers.length,
+          },
+        },
+      })
+    })
+}
+
 export const notDisplayPromotion = async (
   appId: number,
   recordId: number,

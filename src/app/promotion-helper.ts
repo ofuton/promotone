@@ -6,6 +6,7 @@ import { likePromotion } from "./kintone/requests-for-inject"
 
 export default class PromotionHelper {
   appId: number | null = null
+  loginUser: { code: string; name: string } | null = null
   promotions: Promotion[] = []
   /**
    *
@@ -39,7 +40,7 @@ export default class PromotionHelper {
     this.appId = appId
   }
 
-  setPromotions(records: promotone.types.SavedPromotionFields[]) {
+  setPromotionsFromRecords(records: promotone.types.SavedPromotionFields[]) {
     this.promotions = records.map((record) => {
       const likeCount = parseInt(record.likeCount.value)
       const recordId = this.extractRecordId_(record.$id.value)
@@ -48,6 +49,7 @@ export default class PromotionHelper {
         content: record.content.value,
         sender: record.作成者.value,
         likeCount: likeCount ? likeCount : 0,
+        likedUserCodes: record.likedUsers.value.map((user) => user.code),
       }
       return promotion
     })
@@ -82,7 +84,13 @@ export default class PromotionHelper {
         promotone-card-footer"
         >
           <div class="promotone-card-footer-actions">
-            <div class="promotone-card-like">
+            <div
+              class="promotone-card-like ${promotion.likedUserCodes.some(
+                (userCode) => userCode === this.loginUser?.code
+              )
+                ? "promotone-card-like__liked"
+                : ""}"
+            >
               <label
                 for="promotone-card-like-button"
                 class="promotone-card-like-count-text"
@@ -123,15 +131,65 @@ export default class PromotionHelper {
       if (!this.appId) {
         return
       }
-      document.dispatchEvent(
-        new CustomEvent("promotone:liked", {
-          detail: {
-            appId: this.appId,
-            recordId: promotion.recordId,
-          },
-        })
-      )
+      if (this.isLiked_(element)) {
+        this.decrementLikeCountText_(element)
+        document.dispatchEvent(
+          new CustomEvent("promotone:unliked", {
+            detail: {
+              appId: this.appId,
+              recordId: promotion.recordId,
+            },
+          })
+        )
+      } else {
+        this.incrementLikeCountText_(element)
+        document.dispatchEvent(
+          new CustomEvent("promotone:liked", {
+            detail: {
+              appId: this.appId,
+              recordId: promotion.recordId,
+            },
+          })
+        )
+      }
+      this.setLikedClassName_(element, !this.isLiked_(element))
     })
+  }
+
+  isLiked_(element: HTMLElement): boolean {
+    const likeWrapperEl = element.querySelector(
+      ".promotone-card-like"
+    ) as HTMLElement
+    return likeWrapperEl.classList.contains("promotone-card-like__liked")
+  }
+
+  incrementLikeCountText_(element: HTMLElement) {
+    const likeCountTextEl = element.querySelector(
+      ".promotone-card-like-count-text"
+    ) as HTMLElement
+    likeCountTextEl.innerText = (
+      parseInt(likeCountTextEl.innerText) + 1
+    ).toString()
+  }
+
+  decrementLikeCountText_(element: HTMLElement) {
+    const likeCountTextEl = element.querySelector(
+      ".promotone-card-like-count-text"
+    ) as HTMLElement
+    likeCountTextEl.innerText = (
+      parseInt(likeCountTextEl.innerText) - 1
+    ).toString()
+  }
+
+  setLikedClassName_(element: HTMLElement, toggledIsLiked: boolean) {
+    const wrapperEl = element.querySelector(
+      ".promotone-card-like"
+    ) as HTMLElement
+    if (toggledIsLiked) {
+      wrapperEl.classList.add("promotone-card-like__liked")
+    } else {
+      wrapperEl.classList.remove("promotone-card-like__liked")
+    }
   }
 
   listenNotDisplayedButtonClick_(
@@ -155,6 +213,9 @@ export default class PromotionHelper {
       if (!this.appId) {
         return
       }
+      this.promotions = this.promotions.filter(
+        (p) => p.recordId === promotion.recordId
+      )
       document.dispatchEvent(
         new CustomEvent("promotone:notDisplayed", {
           detail: {
@@ -176,6 +237,7 @@ export type Promotion = {
     name: string
   }
   likeCount: number
+  likedUserCodes: string[]
   startDatetime?: Date
   endDatetime?: Date
 }
