@@ -1,7 +1,7 @@
 import "../styles/promotion-helper.scss"
 import { html, render } from "lit-html"
 import { unsafeHTML } from "lit-html/directives/unsafe-html"
-import sanitizeHtml from "sanitize-html"
+import { sanitizeHTML } from "./html-sanitizer"
 import { likePromotion } from "./kintone/requests-for-inject"
 
 export default class PromotionHelper {
@@ -68,7 +68,7 @@ export default class PromotionHelper {
   }
 
   renderPromotionElement_(promotion: Promotion, targetElement: HTMLElement) {
-    const sanitizedHtml = sanitizeHtml(promotion.content)
+    const sanitizedHtml = sanitizeHTML(promotion.content)
     const className = `promotone-promotion-${promotion.recordId}`
     const template = html`<div class="promotone-card ${className}">
       <div class="promotone-card-left">
@@ -85,11 +85,13 @@ export default class PromotionHelper {
         >
           <div class="promotone-card-footer-actions">
             <div
-              class="promotone-card-like ${promotion.likedUserCodes.some(
-                (userCode) => userCode === this.loginUser?.code
-              )
-                ? "promotone-card-like__liked"
-                : ""}"
+              class="promotone-card-like ${
+                promotion.likedUserCodes.some(
+                  (userCode) => userCode === this.loginUser?.code
+                )
+                  ? "promotone-card-like__liked"
+                  : ""
+              }"
             >
               <label
                 for="promotone-card-like-button"

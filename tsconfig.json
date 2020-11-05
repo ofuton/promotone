@@ -2,7 +2,6 @@
   "compilerOptions": {
     "target": "ES2018",
     "module": "commonjs",
-    "jsx": "react",
     "strict": true,
     "typeRoots": [
       "./types", "node_modules/@types"
