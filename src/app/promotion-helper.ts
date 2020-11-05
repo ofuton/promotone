@@ -1,7 +1,7 @@
 import "../styles/promotion-helper.scss"
 import { html, render } from "lit-html"
 import { unsafeHTML } from "lit-html/directives/unsafe-html"
-import sanitizeHtml from "sanitize-html"
+import { sanitizeHTML } from "./html-sanitizer"
 import { likePromotion } from "./kintone/requests-for-inject"
 
 export default class PromotionHelper {
@@ -68,7 +68,7 @@ export default class PromotionHelper {
   }
 
   renderPromotionElement_(promotion: Promotion, targetElement: HTMLElement) {
-    const sanitizedHtml = PromotionHelper.sanitizeHtml_(promotion.content)
+    const sanitizedHtml = sanitizeHTML(promotion.content)
     const className = `promotone-promotion-${promotion.recordId}`
     const template = html`<div class="promotone-card ${className}">
       <div class="promotone-card-left">
@@ -122,12 +122,6 @@ export default class PromotionHelper {
   static removeAllPromotionCard() {
     Array.from(document.querySelectorAll(".promotone-card")).forEach((card) => {
       card.remove()
-    })
-  }
-
-  static sanitizeHtml_(text: string): string {
-    return sanitizeHtml(text, {
-      allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
     })
   }
 
