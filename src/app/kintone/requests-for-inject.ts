@@ -75,7 +75,7 @@ export const notDisplayPromotion = async (
     .then((resp) => {
       const record: promotone.types.SavedPromotionFields = resp.record
       const notDisplayedUsers: { code: string; name?: string }[] =
-        record.likedUsers.value
+        record.notWantToSeeUser.value
       // 本当は配列のeveryがlikeUserCodeではないの方がわかりやすい気がするが、打ち切りが出来るのでこっちのほうが処理が早い気がする
       if (
         !notDisplayedUsers.some((user) => user.code === notDisplayedUserCode)
