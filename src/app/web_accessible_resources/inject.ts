@@ -24,6 +24,8 @@ if (savedValue && !!parseInt(savedValue)) {
       detail: { records: resp.records },
     })
     document.dispatchEvent(customEvent)
+  }).catch(() => {
+    console.log("promotone: 広告取得用のアプリが見つかりませんでした")
   })
 }
 
